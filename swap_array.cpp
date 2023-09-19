@@ -1,17 +1,10 @@
 #include <iostream>
 
-int *copyArray(int arr[], int brr[], int left, int right)
-{
-    int n = right - left + 1;
-    brr = new int[n];
-    for (int i = 0; i < n; i++)
-    {
-        brr[i] = arr[left++];
-    }
-    return brr;
-}
+int arr[] = {1, 2, 3, 4, 5, 6};
+int count_row = 0;
 
-void swap(int &a, int &b) {
+void swap(int &a, int &b)
+{
     int temp = a;
     a = b;
     b = temp;
@@ -23,32 +16,40 @@ void printArray(int arr[], int n)
     {
         std::cout << arr[i] << " ";
     }
-
+    count_row++;
     std::cout << std::endl;
 }
 
-void swapArray(int arr[], int m)
+void swapArray(int brr[], int Bool[], int n, int k)
 {
-    if (m == 1)
+    for (int i = 0; i < n; i++)
     {
-        printArray(arr, m);
-    }
-    else
-    {
-        int left = 0, right = m;
-        int *brr = copyArray(arr, brr, left, right);
-        for(int i = m - 1; i >= 0; i --) {
-            arr = copyArray(brr, arr, left, right);
-            swap(arr[m - 1], arr[i]);
-            swapArray(arr, m - 1);
-            printArray(arr, m);
+        if (!Bool[i])
+        {
+            brr[k] = arr[i];
+            Bool[i] = 1;
+            if (k == n - 1)
+                printArray(brr, n);
+            else
+                swapArray(brr, Bool, n, k + 1);
+            Bool[i] = 0;
         }
     }
 }
 
 int main()
 {
-    int arr[] = {1, 2, 3};
     int arr_size = sizeof(arr) / sizeof(arr[0]);
-    swapArray(arr, arr_size);
+    int *brr = new int[arr_size];
+    for (int i = 0; i < arr_size; i++)
+    {
+        brr[i] = arr[i];
+    }
+    int *Bool = new int[arr_size];
+    for (int i = 0; i < arr_size; i++)
+    {
+        Bool[i] = 0;
+    }
+    swapArray(brr, Bool, arr_size, 0);
+    std::cout << count_row << std::endl;
 }

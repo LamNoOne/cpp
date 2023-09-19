@@ -1,25 +1,29 @@
 #include <iostream>
 
-void merge(int arr[], int l, int m, int r)
+void merge(int arr[], int left, int mid, int right)
 {
-    int n1 = m - l + 1;
-    int n2 = r - m;
+    int i, j, k;
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
 
-    int L[n1], R[n2];
+    // Tao cac mang tam
+    int *L = new int[n1];
+    int *R = new int[n2];
 
-    for (int i = 0; i < n1; i++)
+    // Copy du lieu sang mang tam
+    for (i = 0; i < n1; i++)
     {
-        L[i] = arr[l + i];
+        L[i] = arr[left + i];
     }
 
-    for (int j = 0; j < n2; j++)
+    for (j = 0; j < n2; j++)
     {
-        R[j] = arr[m + 1 + j];
+        R[j] = arr[mid + 1 + j];
     }
 
-    int i = 0;
-    int j = 0;
-    int k = l;
+    i = 0;
+    j = 0;
+    k = left;
 
     while (i < n1 && j < n2)
     {
@@ -45,16 +49,14 @@ void merge(int arr[], int l, int m, int r)
     }
 }
 
-void mergeSort(int arr[], int l, int r)
+void mergeSort(int arr[], int left, int right)
 {
-    if (l < r)
+    if (left < right)
     {
-        int m = l + (r - l) / 2;
-
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-
-        merge(arr, l, m, r);
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
     }
 }
 
